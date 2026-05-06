@@ -26,6 +26,9 @@
     <button class="tab" onclick="switchTab('lotes', this)">
       <i class="ti ti-stack-2"></i> Lotes
     </button>
+    <button class="tab" onclick="switchTab('metricas', this)">
+      <i class="ti ti-chart-bar"></i> Métricas
+    </button>
   </div>
 
   <!-- ══════════ UNITARIO ══════════ -->
@@ -251,8 +254,128 @@
 
   </div><!-- /view-lotes -->
 
+
+  <!-- ══════════ MÉTRICAS ══════════ -->
+  <div class="view" id="view-metricas">
+
+    <!-- MÉTRICAS DE EVALUACIÓN -->
+    <div class="metrics-section">
+      <div class="metrics-section-lbl">Métricas de evaluación (conjunto de prueba)</div>
+      <div class="metrics-grid">
+
+        <!-- Regresión Logística -->
+        <div class="metric-card">
+          <div class="metric-card-header">
+            <div class="metric-card-icon lr"><i class="ti ti-chart-line"></i></div>
+            <div class="metric-card-title">Regresión Logística</div>
+          </div>
+          <div class="metric-row"><span class="metric-row-lbl">Accuracy</span><span class="metric-row-val">91.0%</span></div>
+          <div class="metric-row"><span class="metric-row-lbl">F1 Score (macro avg)</span><span class="metric-row-val">0.91</span></div>
+          <div class="metric-row"><span class="metric-row-lbl">Precisión — Rechazado (0)</span><span class="metric-row-val">87.0%</span></div>
+          <div class="metric-row"><span class="metric-row-lbl">Precisión — Aprobado (1)</span><span class="metric-row-val">94.0%</span></div>
+          <div class="metric-row"><span class="metric-row-lbl">Recall — Rechazado (0)</span><span class="metric-row-val">91.0%</span></div>
+          <div class="metric-row"><span class="metric-row-lbl">Recall — Aprobado (1)</span><span class="metric-row-val">91.0%</span></div>
+        </div>
+
+        <!-- Red Neuronal -->
+        <div class="metric-card">
+          <div class="metric-card-header">
+            <div class="metric-card-icon nn"><i class="ti ti-brain"></i></div>
+            <div class="metric-card-title">Red Neuronal (MLP)</div>
+          </div>
+          <div class="metric-row"><span class="metric-row-lbl">Accuracy</span><span class="metric-row-val">99.0%</span></div>
+          <div class="metric-row"><span class="metric-row-lbl">F1 Score (macro avg)</span><span class="metric-row-val">0.99</span></div>
+          <div class="metric-row"><span class="metric-row-lbl">Precisión — Rechazado (0)</span><span class="metric-row-val">98.0%</span></div>
+          <div class="metric-row"><span class="metric-row-lbl">Precisión — Aprobado (1)</span><span class="metric-row-val">99.0%</span></div>
+          <div class="metric-row"><span class="metric-row-lbl">Recall — Rechazado (0)</span><span class="metric-row-val">98.0%</span></div>
+          <div class="metric-row"><span class="metric-row-lbl">Recall — Aprobado (1)</span><span class="metric-row-val">99.0%</span></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MATRICES DE CONFUSIÓN -->
+    <div class="metrics-section">
+      <div class="metrics-section-lbl">Matrices de confusión (estimadas con test set)</div>
+      <div class="metrics-grid">
+
+        <!-- CM Regresión -->
+        <div class="metric-card">
+          <div class="metric-card-header">
+            <div class="metric-card-icon lr"><i class="ti ti-chart-line"></i></div>
+            <div class="metric-card-title">Regresión Logística</div>
+          </div>
+          <table class="cm-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Pred Rechazado</th>
+                <th>Pred Aprobado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cm-lbl">Real Rechazado</td>
+                <td class="cm-tn">309</td>
+                <td class="cm-fp">30</td>
+              </tr>
+              <tr>
+                <td class="cm-lbl">Real Aprobado</td>
+                <td class="cm-fn">45</td>
+                <td class="cm-tp">470</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="cm-legend">
+            <span><i class="ti ti-square-check ok"></i> TN: predijo Rechazado correctamente</span>
+            <span><i class="ti ti-square-check ok"></i> TP: predijo Aprobado correctamente</span>
+            <span><i class="ti ti-square-x bad"></i> FP: falsos positivos</span>
+            <span><i class="ti ti-square-x bad"></i> FN: falsos negativos</span>
+          </div>
+        </div>
+
+        <!-- CM Red Neuronal -->
+        <div class="metric-card">
+          <div class="metric-card-header">
+            <div class="metric-card-icon nn"><i class="ti ti-brain"></i></div>
+            <div class="metric-card-title">Red Neuronal (MLP)</div>
+          </div>
+          <table class="cm-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Pred Rechazado</th>
+                <th>Pred Aprobado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cm-lbl">Real Rechazado</td>
+                <td class="cm-tn">333</td>
+                <td class="cm-fp">6</td>
+              </tr>
+              <tr>
+                <td class="cm-lbl">Real Aprobado</td>
+                <td class="cm-fn">6</td>
+                <td class="cm-tp">509</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="cm-legend">
+            <span><i class="ti ti-square-check ok"></i> TN: predijo Rechazado correctamente</span>
+            <span><i class="ti ti-square-check ok"></i> TP: predijo Aprobado correctamente</span>
+            <span><i class="ti ti-square-x bad"></i> FP: falsos positivos</span>
+            <span><i class="ti ti-square-x bad"></i> FN: falsos negativos</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /view-metricas -->
+
 </div><!-- /app -->
 
-<script src="scripts.js" defer></script>
+<script src="scripts.js"></script>
 </body>
 </html>

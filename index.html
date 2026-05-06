@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CreditAI · Predictor de Préstamos</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- ── HEADER ── -->
+  <div class="header">
+    <div class="brand">CreditAI · Sistema de Evaluación</div>
+    <div class="title">Predictor de Aprobación de Préstamo</div>
+  </div>
+
+  <!-- ── TAB BAR ── -->
+  <div class="tab-bar">
+    <button class="tab active" onclick="switchTab('unitario', this)">
+      <i class="ti ti-user"></i> Unitario
+    </button>
+    <button class="tab" onclick="switchTab('lotes', this)">
+      <i class="ti ti-stack-2"></i> Lotes
+    </button>
+  </div>
+
+  <!-- ══════════ UNITARIO ══════════ -->
+  <div class="view active" id="view-unitario">
+
+    <div class="model-row">
+      <button class="mbtn on" onclick="selectModel('lr', this)" id="mbtn-lr">
+        <div class="mic lr"><i class="ti ti-chart-line"></i></div>
+        <div><div class="mn">Regresión Logística</div><div class="md">Rápido · Interpretable</div></div>
+        <div class="dot"><i class="ti ti-check"></i></div>
+      </button>
+      <button class="mbtn" onclick="selectModel('nn', this)" id="mbtn-nn">
+        <div class="mic nn"><i class="ti ti-brain"></i></div>
+        <div><div class="mn">Red Neuronal</div><div class="md">Preciso · Complejo</div></div>
+        <div class="dot"><i class="ti ti-check"></i></div>
+      </button>
+    </div>
+
+    <div class="layout">
+
+      <!-- LEFT: inputs -->
+      <div class="left-col">
+        <div class="panel">
+          <div class="sec-lbl">Información del solicitante</div>
+          <div class="fgrid">
+            <div class="field">
+              <label>Dependientes</label>
+              <input type="number" id="no_of_dependents" min="0" max="10" placeholder="0" oninput="onFieldChange()">
+            </div>
+            <div class="field">
+              <label>Educación</label>
+              <select id="education" onchange="onFieldChange()">
+                <option value="">Seleccionar</option>
+                <option value="1">Graduado</option>
+                <option value="0">No Graduado</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label>Cuenta propia</label>
+              <select id="self_employed" onchange="onFieldChange()">
+                <option value="">Seleccionar</option>
+                <option value="0">No</option>
+                <option value="1">Sí</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="sec-lbl">Información financiera</div>
+          <div class="fgrid">
+            <div class="field full">
+              <label>Ingreso anual</label>
+              <input type="number" id="income_annum" placeholder="60000" oninput="onFieldChange()">
+              <div class="hint">En tu moneda local</div>
+            </div>
+            <div class="field">
+              <label>Monto préstamo</label>
+              <input type="number" id="loan_amount" placeholder="200000" oninput="onFieldChange()">
+            </div>
+            <div class="field">
+              <label>Plazo (meses)</label>
+              <input type="number" id="loan_term" min="1" placeholder="12" oninput="onFieldChange()">
+            </div>
+            <div class="field">
+              <label>Puntaje CIBIL</label>
+              <input type="number" id="cibil_score" min="300" max="900" placeholder="700" oninput="onFieldChange()">
+              <div class="hint">300 – 900</div>
+            </div>
+            <div class="field">
+              <label>Activos totales</label>
+              <input type="number" id="total_assets" placeholder="500000" oninput="onFieldChange()">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: results -->
+      <div class="result-panel">
+        <div class="status-box idle" id="status-box">
+          <div class="sico"><i class="ti ti-chart-dots" id="status-icon"></i></div>
+          <div>
+            <div class="slbl" id="status-lbl">Ingresa los datos</div>
+            <div class="ssub" id="status-sub">El resultado aparecerá automáticamente</div>
+          </div>
+        </div>
+
+        <div class="gauge-wrap">
+          <svg width="160" height="90" viewBox="0 0 160 90">
+            <path class="gauge-track" d="M 20 80 A 60 60 0 0 1 140 80" stroke-linecap="round"/>
+            <path class="gauge-fill" id="gauge-fill"
+              d="M 20 80 A 60 60 0 0 1 140 80"
+              stroke="#3fb950" stroke-dasharray="188.5" stroke-dashoffset="188.5"/>
+            <text id="gauge-txt" x="80" y="72" text-anchor="middle"
+              font-family="Syne,sans-serif" font-size="22" font-weight="800" fill="#484f58">—</text>
+            <text id="gauge-sub" x="80" y="88" text-anchor="middle"
+              font-family="Syne,sans-serif" font-size="8" font-weight="600"
+              letter-spacing="2" fill="#484f58">SIN DATOS</text>
+          </svg>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="grid2x2">
+          <div class="mstat">
+            <div class="mstat-lbl">Decisión</div>
+            <div class="mstat-val" id="res-decision" style="color:var(--txt3)">—</div>
+          </div>
+          <div class="mstat">
+            <div class="mstat-lbl">Confianza</div>
+            <div class="mstat-val" id="res-conf" style="color:var(--txt3)">—</div>
+          </div>
+          <div class="mstat">
+            <div class="mstat-lbl">CIBIL</div>
+            <div class="mstat-val" id="res-cibil" style="color:var(--txt3)">—</div>
+          </div>
+          <div class="mstat">
+            <div class="mstat-lbl">Modelo</div>
+            <div class="mstat-val" id="res-model" style="color:var(--green)">Reg. Logística</div>
+          </div>
+        </div>
+
+        <div class="note-box">
+          <div class="note-lbl"><span class="live-dot"></span>Análisis automático</div>
+          <div class="note-txt" id="note-txt">Completa los campos para obtener un análisis automático del perfil crediticio.</div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /view-unitario -->
+
+
+  <!-- ══════════ LOTES ══════════ -->
+  <div class="view" id="view-lotes">
+
+    <div class="model-row">
+      <button class="mbtn on" onclick="selectBatchModel('lr', this)" id="bmbtn-lr">
+        <div class="mic lr"><i class="ti ti-chart-line"></i></div>
+        <div><div class="mn">Regresión Logística</div><div class="md">Rápido · Interpretable</div></div>
+        <div class="dot"><i class="ti ti-check"></i></div>
+      </button>
+      <button class="mbtn" onclick="selectBatchModel('nn', this)" id="bmbtn-nn">
+        <div class="mic nn"><i class="ti ti-brain"></i></div>
+        <div><div class="mn">Red Neuronal</div><div class="md">Preciso · Complejo</div></div>
+        <div class="dot"><i class="ti ti-check"></i></div>
+      </button>
+    </div>
+
+    <div class="drop-zone" id="drop-zone">
+      <input type="file" id="batch-file-input" accept=".csv,.xlsx,.xls" onchange="onFileSelected(event)">
+      <div class="dz-icon"><i class="ti ti-file-upload"></i></div>
+      <div class="dz-title">Arrastra o selecciona tu archivo</div>
+      <div class="dz-sub">Columnas: no_of_dependents, education, self_employed,<br>income_annum, loan_amount, loan_term, cibil_score, total_assets</div>
+      <div class="dz-chips">
+        <span class="dz-chip">.CSV</span>
+        <span class="dz-chip">.XLSX</span>
+      </div>
+    </div>
+
+    <div id="file-pill" style="display:none;" class="file-pill">
+      <i class="ti ti-file-spreadsheet file-pill-icon"></i>
+      <div class="file-pill-info">
+        <div class="file-pill-name" id="file-name">—</div>
+        <div class="file-pill-size" id="file-size">—</div>
+      </div>
+      <button class="file-pill-rm" onclick="removeFile()" title="Quitar archivo">
+        <i class="ti ti-x"></i>
+      </button>
+    </div>
+
+    <div class="progress-wrap" id="progress-wrap">
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
+      <div class="progress-txt" id="progress-txt">Procesando…</div>
+    </div>
+
+    <button class="process-btn" id="process-btn" disabled onclick="processBatch()">
+      <i class="ti ti-cpu"></i> &nbsp;Procesar lote
+    </button>
+
+    <div class="results-card" id="results-card" style="display:none;">
+      <div class="results-header">
+        <div class="results-title">Resultados</div>
+        <div class="results-actions">
+          <button class="icon-btn export" onclick="exportCSV()">
+            <i class="ti ti-download"></i> Exportar CSV
+          </button>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Ingreso</th>
+              <th>Monto</th>
+              <th>CIBIL</th>
+              <th>Prob.</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="results-tbody"></tbody>
+        </table>
+      </div>
+      <div class="summary-bar" id="summary-bar">
+        <div class="sum-item">
+          <div class="sum-val blue" id="sum-total">—</div>
+          <div class="sum-lbl">Total</div>
+        </div>
+        <div class="sum-item">
+          <div class="sum-val green" id="sum-approved">—</div>
+          <div class="sum-lbl">Aprobados</div>
+        </div>
+        <div class="sum-item">
+          <div class="sum-val red" id="sum-rejected">—</div>
+          <div class="sum-lbl">Rechazados</div>
+        </div>
+        <div class="sum-item">
+          <div class="sum-val amber" id="sum-avg-prob">—</div>
+          <div class="sum-lbl">Prob. media</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /view-lotes -->
+
+</div><!-- /app -->
+
+<script src="scripts.js"></script>
+</body>
+</html>

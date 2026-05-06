@@ -2,9 +2,9 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg:#0d1117; --bg1:#161b22; --bg2:#1c2230; --bg3:#212836;
-  --bdr:rgba(255,255,255,.07); --bdr2:rgba(255,255,255,.13);
-  --txt:#e6edf3; --txt2:#8b949e; --txt3:#484f58;
+  --bg:#121212; --bg1:#1b1b1b; --bg2:#1b1b1b; --bg3:#121212;
+  --bdr:rgba(235, 203, 42, 0.07); --bdr2:rgba(255,255,255,.13);
+  --txt:#e6edf3; --txt2:#FFFFFF; --txt3:#9d9d9d;
   --green:#3fb950; --green-bg:rgba(63,185,80,.10); --green-bdr:rgba(63,185,80,.25);
   --red:#f85149;  --red-bg:rgba(248,81,73,.10);   --red-bdr:rgba(248,81,73,.25);
   --blue:#58a6ff; --blue-bg:rgba(88,166,255,.10);  --blue-bdr:rgba(88,166,255,.25);

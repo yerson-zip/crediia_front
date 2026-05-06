@@ -119,8 +119,8 @@ body {
   color: var(--txt); outline: none; transition: border-color .2s; width: 100%;
   -webkit-appearance: none; appearance: none;
 }
-.field input:focus, .field select:focus { border-color: rgba(88,166,255,.45); }
-.field select option { background: #1c2230; }
+.field input:focus, .field select:focus { border-color: #dbdbdb55; }
+.field select option { background: #1b1b1b; }
 .field.full { grid-column: span 2; }
 .hint { font-size: 10px; color: var(--txt3); margin-top: 2px; }
 

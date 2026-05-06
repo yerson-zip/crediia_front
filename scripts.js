@@ -1,4 +1,4 @@
-const API_BASE = 'https://crediia-front.vercel.app';
+const API_BASE = 'https://crediia-backend.onrender.com';
 
 /* ── TAB SWITCHING ─────────────────────── */
 function switchTab(name, btn) {

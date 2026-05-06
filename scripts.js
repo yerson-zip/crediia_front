@@ -169,9 +169,16 @@ function selectBatchModel(m, btn) {
   document.querySelectorAll('#view-lotes .mbtn').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
 }
-
-/* Drag & drop */
 const dz = document.getElementById('drop-zone');
+if (dz) {
+  dz.addEventListener('dragover',  e => { e.preventDefault(); dz.classList.add('drag-over'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+  dz.addEventListener('drop', e => {
+    e.preventDefault(); dz.classList.remove('drag-over');
+    const f = e.dataTransfer.files[0];
+    if (f) handleFile(f);
+  });
+}
 dz.addEventListener('dragover',  e => { e.preventDefault(); dz.classList.add('drag-over'); });
 dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
 dz.addEventListener('drop', e => {

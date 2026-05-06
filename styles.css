@@ -1,5 +1,4 @@
 
-/* ─── RESET & ROOT ─────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
   --bg:#121212; --bg1:#1b1b1b; --bg2:#1b1b1b; --bg3:#121212;
@@ -12,6 +11,7 @@
   --r:10px; --r-sm:7px;
   --new_color:#bababa;
 }
+
 
 /* ─── BASE ────────────────────────────────── */
 html { scroll-behavior: smooth; }
@@ -446,11 +446,13 @@ tbody td.cibil-lo  { color: var(--red);   font-weight: 600; font-family: 'Syne',
 }
 
 /* confusion matrix */
-.cm-table { width: 100%; border-collapse: separate; border-spacing: 4px; margin-top: 4px; }
+.cm-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.cm-table { width: 100%; border-collapse: separate; border-spacing: 4px; margin-top: 4px; min-width: 220px; }
 .cm-table th {
   font-family: 'Syne', sans-serif; font-size: 9px; font-weight: 600;
   letter-spacing: .5px; color: var(--txt3); padding: 4px 6px;
   text-align: center; background: transparent; border: none;
+  white-space: nowrap;
 }
 .cm-table td {
   text-align: center; border-radius: var(--r-sm);
@@ -476,6 +478,33 @@ tbody td.cibil-lo  { color: var(--red);   font-weight: 600; font-family: 'Syne',
 .cm-legend .ok { color: var(--green); }
 .cm-legend .bad { color: var(--red); }
 
+/* ─── RESPONSIVE MÉTRICAS ──────────────── */
 @media (max-width: 768px) {
   .metrics-grid { grid-template-columns: 1fr; }
+
+  .cm-table th { font-size: 8px; padding: 3px 5px; }
+  .cm-table td { font-size: 13px; padding: 9px 5px; }
+  .cm-legend { gap: 8px; font-size: 9px; }
+}
+
+@media (max-width: 480px) {
+  .metric-card { padding: 14px 12px; }
+  .metric-card-title { font-size: 10px; }
+  .metric-row-lbl { font-size: 11px; }
+  .metric-row-val { font-size: 13px; }
+
+  /* tabla de confusión: scroll horizontal si no cabe */
+  .cm-wrap { margin: 0 -4px; padding: 0 4px; }
+  .cm-table { min-width: 200px; }
+  .cm-table th { font-size: 8px; letter-spacing: 0; }
+  .cm-table td { font-size: 16px; padding: 12px 4px; }
+
+  .cm-legend { gap: 6px; font-size: 9px; }
+  .cm-legend span { width: 100%; }
+}
+
+@media (max-width: 360px) {
+  .cm-table { min-width: 180px; }
+  .cm-table th { font-size: 7px; }
+  .cm-table td { font-size: 14px; padding: 10px 3px; }
 }

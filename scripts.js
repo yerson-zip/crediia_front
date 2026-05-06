@@ -1,4 +1,3 @@
-
 const API_BASE = 'https://crediia-backend.onrender.com';
 
 /* ── TAB SWITCHING ─────────────────────── */
@@ -124,7 +123,7 @@ async function sendPrediction() {
   setLoading(); pendingReq = true;
   try {
     const endpoint = currentModel === 'lr'
-      ? `${API_BASE}/regresion/unique`
+      ? `${API_BASE}/regresion/regresion/unique`
       : `${API_BASE}/NN/unique`;
     const res = await fetch(endpoint, {
       method: 'POST',
@@ -228,7 +227,7 @@ async function processBatch() {
     progressTxt.textContent = 'Enviando archivo al modelo…';
 
     const endpoint = batchModel === 'lr'
-      ? `${API_BASE}/regresion/path`
+      ? `${API_BASE}/regresion/regresion/path`
       : `${API_BASE}/NN/path`;
 
     const formData = new FormData();

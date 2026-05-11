@@ -1,4 +1,4 @@
-const API_BASE = 'https://crediia-backend.onrender.com';
+const API_BASE = 'https://crediia-backend-1.onrender.com';
 
 /* ── TAB SWITCHING ─────────────────────── */
 function switchTab(name, btn) {

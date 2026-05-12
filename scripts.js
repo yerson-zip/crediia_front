@@ -1,6 +1,7 @@
+
 const API_BASE = 'https://crediia-backend-1.onrender.com';
 
-/* ── TAB SWITCHING ─────────────────────── */
+/* ── TAB SWITCHING ── */
 function switchTab(name, btn) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -169,16 +170,8 @@ function selectBatchModel(m, btn) {
   document.querySelectorAll('#view-lotes .mbtn').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
 }
+
 const dz = document.getElementById('drop-zone');
-if (dz) {
-  dz.addEventListener('dragover',  e => { e.preventDefault(); dz.classList.add('drag-over'); });
-  dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
-  dz.addEventListener('drop', e => {
-    e.preventDefault(); dz.classList.remove('drag-over');
-    const f = e.dataTransfer.files[0];
-    if (f) handleFile(f);
-  });
-}
 dz.addEventListener('dragover',  e => { e.preventDefault(); dz.classList.add('drag-over'); });
 dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
 dz.addEventListener('drop', e => {
@@ -216,6 +209,7 @@ function removeFile() {
 
 function fmt(n) { return '$' + Number(n).toLocaleString('en-US'); }
 
+/* ── processBatch: llama /path y /evaluate en paralelo ── */
 async function processBatch() {
   if (!batchFile) return;
   const btn = document.getElementById('process-btn');
@@ -229,28 +223,46 @@ async function processBatch() {
   progressFill.style.width = '10%';
   progressTxt.textContent  = 'Leyendo archivo…';
 
+  const predEndpoint = batchModel === 'lr'
+    ? `${API_BASE}/regresion/path`
+    : `${API_BASE}/NN/path`;
+
+  const evalEndpoint = batchModel === 'lr'
+    ? `${API_BASE}/regresion/evaluate`
+    : `${API_BASE}/NN/evaluate`;
+
+  // Dos FormData distintos — mismo archivo en memoria, dos "sobres" HTTP
+  const fd1 = new FormData();
+  fd1.append('file', batchFile);
+  const fd2 = new FormData();
+  fd2.append('file', batchFile);
+
   try {
     progressFill.style.width = '30%';
-    progressTxt.textContent = 'Enviando archivo al modelo…';
+    progressTxt.textContent = 'Enviando archivo a los modelos…';
 
-    const endpoint = batchModel === 'lr'
-      ? `${API_BASE}/regresion/path`
-      : `${API_BASE}/NN/path`;
+    const [predRes, evalRes] = await Promise.all([
+      fetch(predEndpoint, { method: 'POST', body: fd1 }),
+      fetch(evalEndpoint, { method: 'POST', body: fd2 })
+    ]);
 
-    const formData = new FormData();
-    formData.append('file', batchFile);
+    if (!predRes.ok) throw new Error('Error predicciones: ' + predRes.status);
 
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      body: formData
-    });
-    if (!res.ok) throw new Error('Error del servidor: ' + res.status);
-    const results = await res.json();
+    const predictions = await predRes.json();
+    const metrics     = evalRes.ok ? await evalRes.json() : null;
 
     progressFill.style.width = '90%';
     progressTxt.textContent = 'Renderizando resultados…';
-    batchResults = results;
-    renderResults(results);
+
+    // Tabla de predicciones — igual que antes
+    batchResults = predictions;
+    renderResults(predictions);
+
+    // Métricas — solo si el archivo tenía loan_status y el endpoint respondió bien
+    if (metrics && !metrics.error) {
+      updateMetricsPanel(metrics);
+    }
+
     progressFill.style.width = '100%';
     setTimeout(() => progressWrap.classList.remove('show'), 600);
 
@@ -262,11 +274,32 @@ async function processBatch() {
   }
 }
 
+/* ── Actualiza el panel de métricas con datos reales del backend ── */
+function updateMetricsPanel(m) {
+  const p = batchModel; // 'lr' o 'nn'
+
+  document.getElementById(`${p}-accuracy`).textContent  = (m.accuracy  * 100).toFixed(1) + '%';
+  document.getElementById(`${p}-precision`).textContent = (m.precision * 100).toFixed(1) + '%';
+  document.getElementById(`${p}-recall`).textContent    = (m.recall    * 100).toFixed(1) + '%';
+  document.getElementById(`${p}-f1`).textContent        = m.f1.toFixed(2);
+
+  const cm = m.confusion_matrix;
+  document.getElementById(`${p}-tn`).textContent = cm.tn;
+  document.getElementById(`${p}-fp`).textContent = cm.fp;
+  document.getElementById(`${p}-fn`).textContent = cm.fn;
+  document.getElementById(`${p}-tp`).textContent = cm.tp;
+
+  // Muestra badge "Actualizado con lote"
+  const badge = document.getElementById('metrics-badge');
+  badge.classList.add('visible');
+  setTimeout(() => badge.classList.remove('visible'), 4000);
+}
+
 function renderResults(results) {
   const tbody = document.getElementById('results-tbody');
   tbody.innerHTML = '';
   results.forEach((r, i) => {
-    const prob = Math.round((r.probability ?? 0.5) * 100);
+    const prob     = Math.round((r.probability ?? 0.5) * 100);
     const approved = r.prediction === 1;
     const cClass   = r.cibil_score >= 750 ? 'cibil-hi' : r.cibil_score >= 600 ? 'cibil-mid' : 'cibil-lo';
     const pClass   = prob >= 60 ? 'hi' : prob >= 40 ? 'mid' : 'lo';
@@ -301,18 +334,12 @@ function exportCSV() {
     'loan_income_ratio','loan_assets_ratio','prediction','probability'
   ];
   const rows = batchResults.map(r => [
-    r.no_of_dependents ?? '',
-    r.education        ?? '',
-    r.self_employed    ?? '',
-    r.income_annum     ?? '',
-    r.loan_amount      ?? '',
-    r.loan_term        ?? '',
-    r.cibil_score      ?? '',
-    r.total_assets     ?? '',
+    r.no_of_dependents ?? '', r.education        ?? '', r.self_employed    ?? '',
+    r.income_annum     ?? '', r.loan_amount      ?? '', r.loan_term        ?? '',
+    r.cibil_score      ?? '', r.total_assets     ?? '',
     r.loan_income_ratio != null ? r.loan_income_ratio : '',
     r.loan_assets_ratio != null ? r.loan_assets_ratio : '',
-    r.prediction       ?? '',
-    r.probability      ?? '',
+    r.prediction       ?? '', r.probability      ?? '',
   ]);
   const csv  = [headers, ...rows].map(r => r.join(',')).join('\n');
   const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });

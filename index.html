@@ -7,7 +7,7 @@
 <link rel="shortcut icon" href="Background1.png" type="image/x-icon">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/tabler-icons.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="app">
@@ -33,14 +33,13 @@
 
   <!-- ══════════ UNITARIO ══════════ -->
   <div class="view active" id="view-unitario">
-
     <div class="model-row">
-      <button class="mbtn on" onclick="selectModel('lr', this)" id="mbtn-lr">
+      <button class="mbtn on" onclick="selectModel('lr', this)">
         <div class="mic lr"><i class="ti ti-chart-line"></i></div>
         <div><div class="mn">Regresión Logística</div><div class="md">Rápido · Interpretable</div></div>
         <div class="dot"><i class="ti ti-check"></i></div>
       </button>
-      <button class="mbtn" onclick="selectModel('nn', this)" id="mbtn-nn">
+      <button class="mbtn" onclick="selectModel('nn', this)">
         <div class="mic nn"><i class="ti ti-brain"></i></div>
         <div><div class="mn">Red Neuronal</div><div class="md">Preciso · Complejo</div></div>
         <div class="dot"><i class="ti ti-check"></i></div>
@@ -48,8 +47,6 @@
     </div>
 
     <div class="layout">
-
-      <!-- LEFT: inputs -->
       <div class="left-col">
         <div class="panel">
           <div class="sec-lbl">Información del solicitante</div>
@@ -76,7 +73,6 @@
             </div>
           </div>
         </div>
-
         <div class="panel">
           <div class="sec-lbl">Información financiera</div>
           <div class="fgrid">
@@ -106,7 +102,6 @@
         </div>
       </div>
 
-      <!-- RIGHT: results -->
       <div class="result-panel">
         <div class="status-box idle" id="status-box">
           <div class="sico"><i class="ti ti-chart-dots" id="status-icon"></i></div>
@@ -115,12 +110,10 @@
             <div class="ssub" id="status-sub">El resultado aparecerá automáticamente</div>
           </div>
         </div>
-
         <div class="gauge-wrap">
           <svg width="160" height="90" viewBox="0 0 160 90">
             <path class="gauge-track" d="M 20 80 A 60 60 0 0 1 140 80" stroke-linecap="round"/>
-            <path class="gauge-fill" id="gauge-fill"
-              d="M 20 80 A 60 60 0 0 1 140 80"
+            <path class="gauge-fill" id="gauge-fill" d="M 20 80 A 60 60 0 0 1 140 80"
               stroke="#3fb950" stroke-dasharray="188.5" stroke-dashoffset="188.5"/>
             <text id="gauge-txt" x="80" y="72" text-anchor="middle"
               font-family="Syne,sans-serif" font-size="22" font-weight="800" fill="#484f58">—</text>
@@ -129,48 +122,31 @@
               letter-spacing="2" fill="#484f58">SIN DATOS</text>
           </svg>
         </div>
-
         <div class="divider"></div>
-
         <div class="grid2x2">
-          <div class="mstat">
-            <div class="mstat-lbl">Decisión</div>
-            <div class="mstat-val" id="res-decision" style="color:var(--txt3)">—</div>
-          </div>
-          <div class="mstat">
-            <div class="mstat-lbl">Confianza</div>
-            <div class="mstat-val" id="res-conf" style="color:var(--txt3)">—</div>
-          </div>
-          <div class="mstat">
-            <div class="mstat-lbl">CIBIL</div>
-            <div class="mstat-val" id="res-cibil" style="color:var(--txt3)">—</div>
-          </div>
-          <div class="mstat">
-            <div class="mstat-lbl">Modelo</div>
-            <div class="mstat-val" id="res-model" style="color:var(--green)">Reg. Logística</div>
-          </div>
+          <div class="mstat"><div class="mstat-lbl">Decisión</div><div class="mstat-val" id="res-decision" style="color:var(--txt3)">—</div></div>
+          <div class="mstat"><div class="mstat-lbl">Confianza</div><div class="mstat-val" id="res-conf" style="color:var(--txt3)">—</div></div>
+          <div class="mstat"><div class="mstat-lbl">CIBIL</div><div class="mstat-val" id="res-cibil" style="color:var(--txt3)">—</div></div>
+          <div class="mstat"><div class="mstat-lbl">Modelo</div><div class="mstat-val" id="res-model" style="color:var(--green)">Reg. Logística</div></div>
         </div>
-
         <div class="note-box">
           <div class="note-lbl"><span class="live-dot"></span>Análisis automático</div>
           <div class="note-txt" id="note-txt">Completa los campos para obtener un análisis automático del perfil crediticio.</div>
         </div>
       </div>
-
     </div>
   </div><!-- /view-unitario -->
 
 
   <!-- ══════════ LOTES ══════════ -->
   <div class="view" id="view-lotes">
-
     <div class="model-row">
-      <button class="mbtn on" onclick="selectBatchModel('lr', this)" id="bmbtn-lr">
+      <button class="mbtn on" onclick="selectBatchModel('lr', this)">
         <div class="mic lr"><i class="ti ti-chart-line"></i></div>
         <div><div class="mn">Regresión Logística</div><div class="md">Rápido · Interpretable</div></div>
         <div class="dot"><i class="ti ti-check"></i></div>
       </button>
-      <button class="mbtn" onclick="selectBatchModel('nn', this)" id="bmbtn-nn">
+      <button class="mbtn" onclick="selectBatchModel('nn', this)">
         <div class="mic nn"><i class="ti ti-brain"></i></div>
         <div><div class="mn">Red Neuronal</div><div class="md">Preciso · Complejo</div></div>
         <div class="dot"><i class="ti ti-check"></i></div>
@@ -181,7 +157,11 @@
       <input type="file" id="batch-file-input" accept=".csv,.xlsx,.xls" onchange="onFileSelected(event)">
       <div class="dz-icon"><i class="ti ti-file-upload"></i></div>
       <div class="dz-title">Arrastra o selecciona tu archivo</div>
-      <div class="dz-sub">Columnas: no_of_dependents, education, self_employed,<br>income_annum, loan_amount, loan_term, cibil_score, total_assets</div>
+      <div class="dz-sub">
+        Columnas requeridas: no_of_dependents, education, self_employed,<br>
+        income_annum, loan_amount, loan_term, cibil_score, total_assets<br>
+        <span style="color:var(--amber)">Opcional: incluye <strong>loan_status</strong> para calcular métricas reales</span>
+      </div>
       <div class="dz-chips">
         <span class="dz-chip">.CSV</span>
         <span class="dz-chip">.XLSX</span>
@@ -221,46 +201,34 @@
         <table>
           <thead>
             <tr>
-              <th>#</th>
-              <th>Ingreso</th>
-              <th>Monto</th>
-              <th>CIBIL</th>
-              <th>Prob.</th>
-              <th>Estado</th>
+              <th>#</th><th>Ingreso</th><th>Monto</th>
+              <th>CIBIL</th><th>Prob.</th><th>Estado</th>
             </tr>
           </thead>
           <tbody id="results-tbody"></tbody>
         </table>
       </div>
-      <div class="summary-bar" id="summary-bar">
-        <div class="sum-item">
-          <div class="sum-val blue" id="sum-total">—</div>
-          <div class="sum-lbl">Total</div>
-        </div>
-        <div class="sum-item">
-          <div class="sum-val green" id="sum-approved">—</div>
-          <div class="sum-lbl">Aprobados</div>
-        </div>
-        <div class="sum-item">
-          <div class="sum-val red" id="sum-rejected">—</div>
-          <div class="sum-lbl">Rechazados</div>
-        </div>
-        <div class="sum-item">
-          <div class="sum-val amber" id="sum-avg-prob">—</div>
-          <div class="sum-lbl">Prob. media</div>
-        </div>
+      <div class="summary-bar">
+        <div class="sum-item"><div class="sum-val blue"  id="sum-total">—</div><div class="sum-lbl">Total</div></div>
+        <div class="sum-item"><div class="sum-val green" id="sum-approved">—</div><div class="sum-lbl">Aprobados</div></div>
+        <div class="sum-item"><div class="sum-val red"   id="sum-rejected">—</div><div class="sum-lbl">Rechazados</div></div>
+        <div class="sum-item"><div class="sum-val amber" id="sum-avg-prob">—</div><div class="sum-lbl">Prob. media</div></div>
       </div>
     </div>
-
   </div><!-- /view-lotes -->
 
 
   <!-- ══════════ MÉTRICAS ══════════ -->
   <div class="view" id="view-metricas">
 
-    <!-- MÉTRICAS DE EVALUACIÓN -->
+    <!-- Métricas de evaluación -->
     <div class="metrics-section">
-      <div class="metrics-section-lbl">Métricas de evaluación (conjunto de prueba)</div>
+      <div class="metrics-section-lbl" style="justify-content:space-between;flex-wrap:wrap;gap:6px;">
+        <span>Métricas de evaluación (conjunto de prueba)</span>
+        <span class="metrics-badge" id="metrics-badge">
+          <i class="ti ti-refresh"></i> Actualizado con lote
+        </span>
+      </div>
       <div class="metrics-grid">
 
         <!-- Regresión Logística -->
@@ -269,12 +237,10 @@
             <div class="metric-card-icon lr"><i class="ti ti-chart-line"></i></div>
             <div class="metric-card-title">Regresión Logística</div>
           </div>
-          <div class="metric-row"><span class="metric-row-lbl">Accuracy</span><span class="metric-row-val">91.0%</span></div>
-          <div class="metric-row"><span class="metric-row-lbl">F1 Score (macro avg)</span><span class="metric-row-val">0.91</span></div>
-          <div class="metric-row"><span class="metric-row-lbl">Precisión — Rechazado (0)</span><span class="metric-row-val">87.0%</span></div>
-          <div class="metric-row"><span class="metric-row-lbl">Precisión — Aprobado (1)</span><span class="metric-row-val">94.0%</span></div>
-          <div class="metric-row"><span class="metric-row-lbl">Recall — Rechazado (0)</span><span class="metric-row-val">91.0%</span></div>
-          <div class="metric-row"><span class="metric-row-lbl">Recall — Aprobado (1)</span><span class="metric-row-val">91.0%</span></div>
+          <div class="metric-row"><span class="metric-row-lbl">Accuracy</span><span class="metric-row-val" id="lr-accuracy">91.0%</span></div>
+          <div class="metric-row"><span class="metric-row-lbl">F1 Score</span><span class="metric-row-val" id="lr-f1">0.91</span></div>
+          <div class="metric-row"><span class="metric-row-lbl">Precisión</span><span class="metric-row-val" id="lr-precision">87.0%</span></div>
+          <div class="metric-row"><span class="metric-row-lbl">Recall</span><span class="metric-row-val" id="lr-recall">91.0%</span></div>
         </div>
 
         <!-- Red Neuronal -->
@@ -283,18 +249,16 @@
             <div class="metric-card-icon nn"><i class="ti ti-brain"></i></div>
             <div class="metric-card-title">Red Neuronal (MLP)</div>
           </div>
-          <div class="metric-row"><span class="metric-row-lbl">Accuracy</span><span class="metric-row-val">99.0%</span></div>
-          <div class="metric-row"><span class="metric-row-lbl">F1 Score (macro avg)</span><span class="metric-row-val">0.99</span></div>
-          <div class="metric-row"><span class="metric-row-lbl">Precisión — Rechazado (0)</span><span class="metric-row-val">98.0%</span></div>
-          <div class="metric-row"><span class="metric-row-lbl">Precisión — Aprobado (1)</span><span class="metric-row-val">99.0%</span></div>
-          <div class="metric-row"><span class="metric-row-lbl">Recall — Rechazado (0)</span><span class="metric-row-val">98.0%</span></div>
-          <div class="metric-row"><span class="metric-row-lbl">Recall — Aprobado (1)</span><span class="metric-row-val">99.0%</span></div>
+          <div class="metric-row"><span class="metric-row-lbl">Accuracy</span><span class="metric-row-val" id="nn-accuracy">99.0%</span></div>
+          <div class="metric-row"><span class="metric-row-lbl">F1 Score</span><span class="metric-row-val" id="nn-f1">0.99</span></div>
+          <div class="metric-row"><span class="metric-row-lbl">Precisión</span><span class="metric-row-val" id="nn-precision">98.0%</span></div>
+          <div class="metric-row"><span class="metric-row-lbl">Recall</span><span class="metric-row-val" id="nn-recall">99.0%</span></div>
         </div>
 
       </div>
     </div>
 
-    <!-- MATRICES DE CONFUSIÓN -->
+    <!-- Matrices de confusión -->
     <div class="metrics-section">
       <div class="metrics-section-lbl">Matrices de confusión (estimadas con test set)</div>
       <div class="metrics-grid">
@@ -305,36 +269,30 @@
             <div class="metric-card-icon lr"><i class="ti ti-chart-line"></i></div>
             <div class="metric-card-title">Regresión Logística</div>
           </div>
-          <div class="cm-block">
           <div class="cm-wrap">
-          <table class="cm-table">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Pred Rechazado</th>
-                <th>Pred Aprobado</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="cm-lbl">Real 0</td>
-                <td class="cm-tn">309</td>
-                <td class="cm-fp">30</td>
-              </tr>
-              <tr>
-                <td class="cm-lbl">Real 1</td>
-                <td class="cm-fn">45</td>
-                <td class="cm-tp">470</td>
-              </tr>
-            </tbody>
-          </table>
+            <table class="cm-table">
+              <thead>
+                <tr><th></th><th>Pred Rechazado</th><th>Pred Aprobado</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="cm-lbl">Real 0</td>
+                  <td class="cm-tn" id="lr-tn">309</td>
+                  <td class="cm-fp" id="lr-fp">30</td>
+                </tr>
+                <tr>
+                  <td class="cm-lbl">Real 1</td>
+                  <td class="cm-fn" id="lr-fn">45</td>
+                  <td class="cm-tp" id="lr-tp">470</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
           <div class="cm-legend">
             <span><i class="ti ti-square-check ok"></i> TN: predijo Rechazado correctamente</span>
             <span><i class="ti ti-square-check ok"></i> TP: predijo Aprobado correctamente</span>
             <span><i class="ti ti-square-x bad"></i> FP: falsos positivos</span>
             <span><i class="ti ti-square-x bad"></i> FN: falsos negativos</span>
-          </div>
           </div>
         </div>
 
@@ -344,29 +302,24 @@
             <div class="metric-card-icon nn"><i class="ti ti-brain"></i></div>
             <div class="metric-card-title">Red Neuronal (MLP)</div>
           </div>
-          <div class="cm-block">
           <div class="cm-wrap">
-          <table class="cm-table">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Pred Rechazado</th>
-                <th>Pred Aprobado</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="cm-lbl">Real 0</td>
-                <td class="cm-tn">333</td>
-                <td class="cm-fp">6</td>
-              </tr>
-              <tr>
-                <td class="cm-lbl">Real 1</td>
-                <td class="cm-fn">6</td>
-                <td class="cm-tp">509</td>
-              </tr>
-            </tbody>
-          </table>
+            <table class="cm-table">
+              <thead>
+                <tr><th></th><th>Pred Rechazado</th><th>Pred Aprobado</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="cm-lbl">Real 0</td>
+                  <td class="cm-tn" id="nn-tn">333</td>
+                  <td class="cm-fp" id="nn-fp">6</td>
+                </tr>
+                <tr>
+                  <td class="cm-lbl">Real 1</td>
+                  <td class="cm-fn" id="nn-fn">6</td>
+                  <td class="cm-tp" id="nn-tp">509</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
           <div class="cm-legend">
             <span><i class="ti ti-square-check ok"></i> TN: predijo Rechazado correctamente</span>
@@ -374,12 +327,10 @@
             <span><i class="ti ti-square-x bad"></i> FP: falsos positivos</span>
             <span><i class="ti ti-square-x bad"></i> FN: falsos negativos</span>
           </div>
-          </div>
         </div>
 
       </div>
     </div>
-
 
   </div><!-- /view-metricas -->
 
